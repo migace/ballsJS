@@ -2,6 +2,7 @@ MIGACE.namespace('game');
 
 MIGACE.game = (function() {
   var board = MIGACE.board;
+  var ball = MIGACE.ball;
   var conf = MIGACE.conf;
 
   init = function() {

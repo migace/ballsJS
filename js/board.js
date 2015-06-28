@@ -44,9 +44,6 @@ MIGACE.board = (function() {
       endX = conf.getCanvasWidth();
       endY = startY;
 
-      console.log(endX);
-      console.log(startY);
-
       ctx.moveTo(startX, startY);
       ctx.lineTo(endX, endY);
       ctx.stroke();
@@ -58,9 +55,6 @@ MIGACE.board = (function() {
       startY = 0;
       endX = startX;
       endY = conf.getCanvasHeight();
-
-      console.log(endX);
-      console.log(startY);
 
       ctx.moveTo(startX, startY);
       ctx.lineTo(endX, endY);
@@ -74,6 +68,8 @@ MIGACE.board = (function() {
   return {
     draw: draw,
     setRows: setRows,
-    setColumns: setColumns
+    setColumns: setColumns,
+    getFieldWidth: getFieldWidth,
+    getFieldHeight: getFieldHeight
   }
 })();
