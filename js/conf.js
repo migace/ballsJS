@@ -25,6 +25,7 @@ MIGACE.conf = (function() {
 
   // public API
   return {
+    getCvs: getCvs,
     getCtx: getCtx,
     getCanvasWidth: getCanvasWidth,
     getCanvasHeight: getCanvasHeight

@@ -18,3 +18,38 @@ MIGACE.namespace = function(ns_string) {
 
   return parent;
 }
+
+MIGACE.clearArray = function(dataArray) {
+  var i,
+      max;
+
+  for (i = 0, max = dataArray.length; i < max; i += 1) {
+    dataArray[i] = 0;
+  }
+
+  return dataArray;
+}
+
+MIGACE.getMousePosition = function(e) {
+  var xPos = new Number(),
+      yPos = new Number();
+
+  if (e.x !== 'undefined' && e.y !== 'undefined') {
+    xPos = e.x;
+    yPos = e.y;
+  } else {
+    xPos = e.clientX + document.body.scrollLeft +
+      document.documentElement.scrollLeft;
+
+    yPos = e.clientY + document.body.scrollTop +
+      document.documentElement.scrollTop;
+  }      
+
+  xPos -= MIGACE.conf.getCvs().offsetLeft;
+  yPos -= MIGACE.conf.getCvs().offsetTop;
+
+  return {
+    x: xPos,
+    y : yPos
+  };
+}

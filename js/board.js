@@ -1,10 +1,18 @@
 MIGACE.namespace('board');
 
 MIGACE.board = (function() {
-  var rows = 11;
-  var columns = 11;
-  var conf = MIGACE.conf;
-  var ctx = conf.getCtx();
+  var rows = 11,
+      columns = 11,
+      conf = MIGACE.conf,
+      ctx = conf.getCtx();
+
+  getRows = function() {
+    return rows;
+  }
+
+  getColumns = function() {
+    return columns;
+  }
 
   setRows = function (userRows) {
     rows = userRows
@@ -70,6 +78,8 @@ MIGACE.board = (function() {
     setRows: setRows,
     setColumns: setColumns,
     getFieldWidth: getFieldWidth,
-    getFieldHeight: getFieldHeight
+    getFieldHeight: getFieldHeight,
+    getColumns: getColumns,
+    getRows: getRows
   }
 })();
