@@ -43,7 +43,7 @@ MIGACE.getMousePosition = function(e) {
 
     yPos = e.clientY + document.body.scrollTop +
       document.documentElement.scrollTop;
-  }      
+  }
 
   xPos -= MIGACE.conf.getCvs().offsetLeft;
   yPos -= MIGACE.conf.getCvs().offsetTop;
@@ -52,4 +52,18 @@ MIGACE.getMousePosition = function(e) {
     x: xPos,
     y : yPos
   };
+}
+
+MIGACE.getOneColor = function() {
+  var color = ['#F7B800', '#FA3400', '#69F500', '#00F7CE', '#000BBD'],
+      randomNumber = Math.floor(Math.random()*color.length);
+
+  return {
+    color: color[randomNumber],
+    index: randomNumber
+  };
+}
+
+MIGACE.transCoordMultiDimToOne = function(coordinates, arrayLength) {
+  return coordinates.y * arrayLength + coordinates.x;
 }

@@ -29,5 +29,5 @@ MIGACE.conf = (function() {
     getCtx: getCtx,
     getCanvasWidth: getCanvasWidth,
     getCanvasHeight: getCanvasHeight
-  }
+  };
 })();
