@@ -19,11 +19,10 @@ MIGACE.namespace = function(ns_string) {
   return parent;
 }
 
-MIGACE.clearArray = function(dataArray) {
-  var i,
-      max;
+MIGACE.clearArray = function(dataArray, size) {
+  var i;
 
-  for (i = 0, max = dataArray.length; i < max; i += 1) {
+  for (i = 0; i < size; i += 1) {
     dataArray[i] = 0;
   }
 
@@ -32,7 +31,8 @@ MIGACE.clearArray = function(dataArray) {
 
 MIGACE.getMousePosition = function(e) {
   var xPos = new Number(),
-      yPos = new Number();
+      yPos = new Number(),
+      rect = MIGACE.conf.getCvs().getBoundingClientRect();
 
   if (e.x !== 'undefined' && e.y !== 'undefined') {
     xPos = e.x;
@@ -45,12 +45,12 @@ MIGACE.getMousePosition = function(e) {
       document.documentElement.scrollTop;
   }
 
-  xPos -= MIGACE.conf.getCvs().offsetLeft;
-  yPos -= MIGACE.conf.getCvs().offsetTop;
+  xPos -= rect.left;
+  yPos -= rect.top;
 
   return {
     x: xPos,
-    y : yPos
+    y: yPos
   };
 }
 
@@ -65,5 +65,26 @@ MIGACE.getOneColor = function() {
 }
 
 MIGACE.transCoordMultiDimToOne = function(coordinates, arrayLength) {
-  return coordinates.y * arrayLength + coordinates.x;
+  return coordinates.y * (arrayLength/10) + coordinates.x;
+}
+
+MIGACE.transIndexToBoardCoord = function(index, board) {
+  var x = Math.floor(index % board.columns);
+      y = Math.floor(index / board.rows);
+
+  return {
+    x: x,
+    y: y
+  };
+}
+
+MIGACE.transCoordToBoardPos = function(coordinates, board) {
+  console.log(coordinates);
+  var xPos = coordinates.x * board.getFieldWidth() + board.getFieldWidth() / 2;
+  var yPos = coordinates.y * board.getFieldHeight() + board.getFieldHeight() / 2;
+
+  return {
+    x: xPos,
+    y: yPos
+  };
 }

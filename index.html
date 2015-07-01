@@ -22,13 +22,18 @@
     </nav>
     <section id="main-content" class="page">
       <div class="container">
-        <canvas id="gBoard" width="480" height="480">
-          <p>
-            Twoja przeglądarka internetowa nie obsługuje elementu canvas!<br />
-            Zaaktualizuj ją do najnowszej wersji. Wspracie dla poszczególnych wersji<br />
-            możesz sprawdzić <a href="http://caniuse.com/#search=canvas">tutaj</a>
-          </p>
-        </canvas>
+        <div class="col-sm-8 col-md-8">
+          <canvas id="gBoard" width="400" height="400">
+            <p>
+              Twoja przeglądarka internetowa nie obsługuje elementu canvas!<br />
+              Zaaktualizuj ją do najnowszej wersji. Wspracie dla poszczególnych wersji<br />
+              możesz sprawdzić <a href="http://caniuse.com/#search=canvas">tutaj</a>
+            </p>
+          </canvas>
+        </div>
+        <div id="control-panel" class="col-sm-4 col-md-4">
+          <button id="new-game" class="btn btn-success">New game</button>
+        </div>
       </div>
     </section>
 
@@ -36,6 +41,7 @@
     <script type="text/javascript" src="js/ball.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/run.js"></script>
-
+    <script type="text/javascript" src="js/interface.js"></script>
+    
   </body>
 </html>

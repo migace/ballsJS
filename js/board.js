@@ -1,34 +1,34 @@
 MIGACE.namespace('board');
 
 MIGACE.board = (function() {
-  var rows = 11,
-      columns = 11,
+  var rows = 10,
+      columns = 10,
       conf = MIGACE.conf,
-      ctx = conf.getCtx();
+      ctx = conf.getCtx(),
 
   getRows = function() {
     return rows;
-  }
+  },
 
   getColumns = function() {
     return columns;
-  }
+  },
 
   setRows = function (userRows) {
     rows = userRows
-  }
+  },
 
   setColumns = function (userColumns) {
     columns = userColumns;
-  }
+  },
 
   getFieldWidth = function () {
     return Math.floor(conf.getCanvasWidth() / rows);
-  }
+  },
 
   getFieldHeight = function () {
     return Math.floor(conf.getCanvasHeight() / columns);
-  }
+  },
 
   draw = function (colorLine, lineWidth) {
     var i, x, y;
@@ -40,6 +40,8 @@ MIGACE.board = (function() {
     if (typeof lineWidth == 'undefined') {
       lineWidth = '2';
     }
+
+    clear();
 
     ctx.beginPath();
     ctx.strokeStyle = colorLine;
@@ -70,6 +72,13 @@ MIGACE.board = (function() {
     }
 
     ctx.closePath();
+  },
+
+  clear = function() {
+      var canvasWidth = conf.getCanvasWidth(),
+          canvasHeight = conf.getCanvasHeight();
+
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   }
 
   // public API

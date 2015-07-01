@@ -2,7 +2,10 @@ MIGACE.namespace('conf');
 
 MIGACE.conf = (function() {
   var cvs,
-      ctx;
+      ctx,
+      rows = 10,
+      columns = 10,
+      ballMargin = 5;
 
   getCvs = function() {
     return document.getElementById('gBoard');
@@ -28,6 +31,9 @@ MIGACE.conf = (function() {
     getCvs: getCvs,
     getCtx: getCtx,
     getCanvasWidth: getCanvasWidth,
-    getCanvasHeight: getCanvasHeight
+    getCanvasHeight: getCanvasHeight,
+    rows: rows,
+    columns: columns,
+    ballMargin: ballMargin
   };
 })();
