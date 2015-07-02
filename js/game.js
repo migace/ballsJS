@@ -4,74 +4,71 @@ MIGACE.game = (function() {
   var board = MIGACE.board,
       ball = MIGACE.ball,
       conf = MIGACE.conf,
-      innitBallsNumber = 3,
-      ballMargin = 5,
       previousPosition = null,
       currentPosition = null,
-      boardArray = new Array(conf.rows * conf.columns+1).join(0).split(''),
+      boardArray = new Array(),
       is_ball_click = false,
 
   init = function() {
     var i;
 
-    //boardArray = new Array(board.getColumns() * board.getRows());
-
-    // event listeners
-    conf.getCvs().addEventListener('mousedown', function(e) {
-      var mouseCoordinates,
-          boardCoordinates,
-          ballPosition,
-          fillColor;
-
-      mouseCoordinates = MIGACE.getMousePosition(e);
-      boardCoordinates = mousePositionBoard(mouseCoordinates);
-      boardArrayIndex = MIGACE.transCoordMultiDimToOne(boardCoordinates, boardArray.length);
-
-      // field doesn't free, ball clicked
-      if (is_ball_click == true) {
-        is_ball_click = false;
-        currentPosition = boardArrayIndex;
-        console.log('Delete ball at previous position: '+previousPosition);
-
-        // i need delete old position
-        // TO DO
-        //ballPosition = MIGACE.transIndexToBoardCoord(previousPosition, {rows: conf.rows, columns: conf.columns});
-
-        ballPosition = MIGACE.transIndexToBoardCoord(boardArrayIndex, {rows: conf.rows, columns: conf.columns});
-        ball = MIGACE.ball;
-        ballPosition = MIGACE.transCoordToBoardPos(ballPosition, board);
-        fillColor = MIGACE.getOneColor();
-        ball.draw(ballPosition.x, ballPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, fillColor.color);
-
-        boardArray[previousPosition] = 0;
-        boardArray[currentPosition] = null;
-        currentPosition = null;
-        previousPosition = null;
-
-        return true;
-      }
-
-      console.log(is_ball_click);
-      if (boardArray[boardArrayIndex] != 0) {
-        is_ball_click = true;
-        previousPosition = boardArrayIndex;
-        console.log('Ball clicked');
-      }
-      else {
-        console.log('Free filed was clicked!');
-      }
-    }, false);
-
+    boardArray = new Array(conf.rows * conf.columns+1).join(0).split('');
     board.draw();
 
-    for (i = 0; i < innitBallsNumber; i += 1) {
+    // event listeners
+    conf.getCvs().addEventListener('mousedown', mousedown, false);
+
+    for (i = 0; i < conf.initBallsNumber; i += 1) {
       drawRandomBall();
     }
-    console.log(boardArray);
   },
 
-  update = function() {
+  mousedown = function(e) {
+    var mouseCoordinates,
+        boardCoordinates,
+        ballPosition,
+        fillColor;
 
+    mouseCoordinates = MIGACE.getMousePosition(e);
+    boardCoordinates = mousePositionBoard(mouseCoordinates);
+    boardArrayIndex = MIGACE.transCoordMultiDimToOne(boardCoordinates, boardArray.length);
+
+    // field doesn't free, ball clicked
+    if (is_ball_click == true) {
+      is_ball_click = false;
+      currentPosition = boardArrayIndex;
+
+      // delete old ball
+      ballPreviousPosition = MIGACE.transIndexToBoardCoord(previousPosition, {rows: conf.rows, columns: conf.columns});
+      ballPreviousPosition = MIGACE.transCoordToBoardPos(ballPreviousPosition, board);
+      previousBall = boardArray[previousPosition];
+      fillColor = '#FFFFFF';
+      previousBall.draw(ballPreviousPosition.x, ballPreviousPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, fillColor);
+
+      // draw new ball
+      ballPosition = MIGACE.transIndexToBoardCoord(boardArrayIndex, {rows: conf.rows, columns: conf.columns});
+      ball = MIGACE.ball();
+      ballPosition = MIGACE.transCoordToBoardPos(ballPosition, board);
+      fillColor = boardArray[previousPosition].color;
+      ball.color = fillColor;
+      ball.colorIndex =
+      ball.draw(ballPosition.x, ballPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, fillColor);
+
+      boardArray[previousPosition] = 0;
+      boardArray[currentPosition] = previousBall;
+      currentPosition = null;
+      previousPosition = null;
+
+      return true;
+    }
+
+    if (boardArray[boardArrayIndex] != 0) {
+      is_ball_click = true;
+      previousPosition = boardArrayIndex;
+    }
+    else {
+      // free field clicked
+    }
   },
 
   mousePositionBoard = function(mouseCoordinates) {
@@ -112,16 +109,16 @@ MIGACE.game = (function() {
       yBoard = Math.floor(Math.random() * conf.columns);
 
       index = MIGACE.transCoordMultiDimToOne({x: xBoard, y: yBoard}, boardArray.length);
-      console.log('index: '+index);
     } while(boardArray[index] === 0);
 
     xBallPosition = xBoard * fieldWidth + halfFieldWidth;
     yBallPosition = yBoard * fieldHeight + halfFieldHeight;
 
-    ball = MIGACE.ball;
+    ball = MIGACE.ball();
     ball.draw(xBallPosition, yBallPosition, radius, ballColor.color);
-    boardArray[index] = ballColor.index;
-    console.log(index);
+    ball.color = ballColor.color;
+    ball.colorIndex = ballColor.index;
+    boardArray[index] = ball;
   };
 
   return {

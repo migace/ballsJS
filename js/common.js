@@ -79,7 +79,6 @@ MIGACE.transIndexToBoardCoord = function(index, board) {
 }
 
 MIGACE.transCoordToBoardPos = function(coordinates, board) {
-  console.log(coordinates);
   var xPos = coordinates.x * board.getFieldWidth() + board.getFieldWidth() / 2;
   var yPos = coordinates.y * board.getFieldHeight() + board.getFieldHeight() / 2;
 

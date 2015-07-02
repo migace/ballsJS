@@ -5,7 +5,8 @@ MIGACE.conf = (function() {
       ctx,
       rows = 10,
       columns = 10,
-      ballMargin = 5;
+      ballMargin = 5,
+      initBallsNumber = 3,
 
   getCvs = function() {
     return document.getElementById('gBoard');
@@ -34,6 +35,7 @@ MIGACE.conf = (function() {
     getCanvasHeight: getCanvasHeight,
     rows: rows,
     columns: columns,
-    ballMargin: ballMargin
+    ballMargin: ballMargin,
+    initBallsNumber: initBallsNumber
   };
 })();
