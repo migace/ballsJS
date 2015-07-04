@@ -6,7 +6,9 @@ MIGACE.conf = (function() {
       rows = 10,
       columns = 10,
       ballMargin = 5,
-      initBallsNumber = 3,
+      ballsNumber = 3,
+      ballsInLine = 5,
+      size = rows * columns,
 
   getCvs = function() {
     return document.getElementById('gBoard');
@@ -36,6 +38,8 @@ MIGACE.conf = (function() {
     rows: rows,
     columns: columns,
     ballMargin: ballMargin,
-    initBallsNumber: initBallsNumber
+    ballsNumber: ballsNumber,
+    ballsInLine: ballsInLine,
+    size: size
   };
 })();

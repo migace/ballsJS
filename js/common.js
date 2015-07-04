@@ -87,3 +87,21 @@ MIGACE.transCoordToBoardPos = function(coordinates, board) {
     y: yPos
   };
 }
+
+MIGACE.transBoardPosToCoord = function(boardPosition, board) {
+  var x = Math.floor((boardPosition.x  - board.getFieldWidth() / 2) / board.getFieldWidth());
+  var y = Math.floor((boardPosition.y  - board.getFieldHeight() / 2) / board.getFieldHeight());
+
+  return {
+    x: x,
+    y: y
+  };
+}
+
+MIGACE.cloneObject = function(from, to) {
+  for (var attr in from) {
+    if (from.hasOwnProperty(attr)) to[attr] = from[attr];
+  }
+
+  return to;
+}

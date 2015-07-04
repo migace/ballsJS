@@ -2,7 +2,7 @@ MIGACE.namespace('game');
 
 MIGACE.game = (function() {
   var board = MIGACE.board,
-      ball = MIGACE.ball,
+      ball = new MIGACE.ball(),
       conf = MIGACE.conf,
       previousPosition = null,
       currentPosition = null,
@@ -18,10 +18,14 @@ MIGACE.game = (function() {
     // event listeners
     conf.getCvs().addEventListener('mousedown', mousedown, false);
 
-    for (i = 0; i < conf.initBallsNumber; i += 1) {
+    drawBalls();
+  },
+
+  drawBalls = function() {
+    for (i = 0; i < conf.ballsNumber; i += 1) {
       drawRandomBall();
     }
-  },
+  }
 
   mousedown = function(e) {
     var mouseCoordinates,
@@ -37,38 +41,89 @@ MIGACE.game = (function() {
     if (is_ball_click == true) {
       is_ball_click = false;
       currentPosition = boardArrayIndex;
+      previousBall = boardArray[previousPosition];
+      ball = new MIGACE.ball();
+      ball = MIGACE.cloneObject(previousBall, ball);
 
       // delete old ball
       ballPreviousPosition = MIGACE.transIndexToBoardCoord(previousPosition, {rows: conf.rows, columns: conf.columns});
       ballPreviousPosition = MIGACE.transCoordToBoardPos(ballPreviousPosition, board);
-      previousBall = boardArray[previousPosition];
-      fillColor = '#FFFFFF';
-      previousBall.draw(ballPreviousPosition.x, ballPreviousPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, fillColor);
+      previousBall.draw(ballPreviousPosition.x, ballPreviousPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, {color: '#FFFFFF', index: 0});
 
       // draw new ball
       ballPosition = MIGACE.transIndexToBoardCoord(boardArrayIndex, {rows: conf.rows, columns: conf.columns});
-      ball = MIGACE.ball();
       ballPosition = MIGACE.transCoordToBoardPos(ballPosition, board);
-      fillColor = boardArray[previousPosition].color;
-      ball.color = fillColor;
-      ball.colorIndex =
-      ball.draw(ballPosition.x, ballPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, fillColor);
+      ball.draw(ballPosition.x, ballPosition.y, board.getFieldWidth() / 2 - conf.ballMargin);
 
       boardArray[previousPosition] = 0;
-      boardArray[currentPosition] = previousBall;
+      boardArray[currentPosition] = ball;
       currentPosition = null;
       previousPosition = null;
+
+      var f = checkBallsHorizontalLine(ball);
+      if (f == false) {
+        update();
+      }
 
       return true;
     }
 
-    if (boardArray[boardArrayIndex] != 0) {
+    if (typeof boardArray[boardArrayIndex] === 'object') {
       is_ball_click = true;
       previousPosition = boardArrayIndex;
     }
     else {
       // free field clicked
     }
+  },
+
+  update = function() {
+    drawBalls();
+  }
+
+  checkBallsHorizontalLine = function(ball) {
+    var balls_in_line = [],
+        ballPosition =  MIGACE.transBoardPosToCoord(ball, board),
+        index;
+
+    //add current ball
+    balls_in_line.push(boardArray[MIGACE.transCoordMultiDimToOne(ballPosition, conf.size)]);
+
+    // horizontal leff
+    while (ballPosition.x >= 0) {
+      ballPosition.x -= 1;
+      index = MIGACE.transCoordMultiDimToOne(ballPosition, conf.size);
+      // i need check if the same color index - the same color
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex == ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        // another color, break counting
+        break;
+      }
+    }
+
+    // horizontal right
+    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+    while (ballPosition.x <= conf.columns) {
+      ballPosition.x += 1;
+      index = MIGACE.transCoordMultiDimToOne({x: ballPosition.x, y: ballPosition.y}, conf.size);
+
+      // i need check if the same color index - the same color
+      if (boardArray[index].colorIndex == ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        // another color, break counting
+        break;
+      }
+    }
+
+    if (balls_in_line.length >= 5) {
+      // delete balls
+      // TO DO
+      return true;
+    }
+
+    return false;
   },
 
   mousePositionBoard = function(mouseCoordinates) {
@@ -94,14 +149,10 @@ MIGACE.game = (function() {
   drawRandomBall = function(fillColor) {
     // call function to check board is free (min quantuty)
     // TO DO
-    var fieldWidth = Math.floor(board.getFieldWidth()),
-        fieldHeight = Math.floor(board.getFieldHeight()),
-        halfFieldWidth = Math.floor(fieldWidth / 2),
-        halfFieldHeight = Math.floor(fieldHeight / 2),
-        radius = Math.floor(halfFieldWidth - conf.ballMargin),
+    var radius = Math.floor(board.getFieldWidth() / 2 - conf.ballMargin),
         ballColor = MIGACE.getOneColor(),
         xBoard, yBoard, xBallPosition, yBallPosition, index,
-        ball;
+        ball, ballPosition;
 
     // field doesn't free
     do {
@@ -109,15 +160,13 @@ MIGACE.game = (function() {
       yBoard = Math.floor(Math.random() * conf.columns);
 
       index = MIGACE.transCoordMultiDimToOne({x: xBoard, y: yBoard}, boardArray.length);
-    } while(boardArray[index] === 0);
+    } while(typeof boardArray[index] === 'object');
 
-    xBallPosition = xBoard * fieldWidth + halfFieldWidth;
-    yBallPosition = yBoard * fieldHeight + halfFieldHeight;
+    ballPosition = MIGACE.transCoordToBoardPos({x: xBoard, y: yBoard}, board);
 
-    ball = MIGACE.ball();
-    ball.draw(xBallPosition, yBallPosition, radius, ballColor.color);
-    ball.color = ballColor.color;
-    ball.colorIndex = ballColor.index;
+    ball = new MIGACE.ball();
+    ball.draw(ballPosition.x, ballPosition.y, radius, ballColor);
+
     boardArray[index] = ball;
   };
 
