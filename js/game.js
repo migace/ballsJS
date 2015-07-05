@@ -46,9 +46,10 @@ MIGACE.game = (function() {
       ball = MIGACE.cloneObject(previousBall, ball);
 
       // delete old ball
-      ballPreviousPosition = MIGACE.transIndexToBoardCoord(previousPosition, {rows: conf.rows, columns: conf.columns});
-      ballPreviousPosition = MIGACE.transCoordToBoardPos(ballPreviousPosition, board);
-      previousBall.draw(ballPreviousPosition.x, ballPreviousPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, {color: '#FFFFFF', index: 0});
+      removeBall(previousPosition);
+      //ballPreviousPosition = MIGACE.transIndexToBoardCoord(previousPosition, {rows: conf.rows, columns: conf.columns});
+      //ballPreviousPosition = MIGACE.transCoordToBoardPos(ballPreviousPosition, board);
+      //previousBall.draw(ballPreviousPosition.x, ballPreviousPosition.y, board.getFieldWidth() / 2 - conf.ballMargin, {color: '#FFFFFF', index: 0});
 
       // draw new ball
       ballPosition = MIGACE.transIndexToBoardCoord(boardArrayIndex, {rows: conf.rows, columns: conf.columns});
@@ -84,7 +85,7 @@ MIGACE.game = (function() {
   checkBallsHorizontalLine = function(ball) {
     var balls_in_line = [],
         ballPosition =  MIGACE.transBoardPosToCoord(ball, board),
-        index;
+        index, i, coordinates, radius, arrayLength, max;
 
     //add current ball
     balls_in_line.push(boardArray[MIGACE.transCoordMultiDimToOne(ballPosition, conf.size)]);
@@ -118,8 +119,15 @@ MIGACE.game = (function() {
     }
 
     if (balls_in_line.length >= 5) {
-      // delete balls
-      // TO DO
+      radius = board.getFieldWidth() / 2 - conf.ballMargin;
+      arrayLength = boardArray.length;
+
+      for (i = 0, max = balls_in_line.length; i < max; i += 1) {
+        coordinates = MIGACE.transBoardPosToCoord(balls_in_line[i], board);
+        index = MIGACE.transCoordMultiDimToOne(coordinates, arrayLength);
+        removeBall(index);
+        boardArray[index] = null;
+      }
       return true;
     }
 
@@ -144,6 +152,17 @@ MIGACE.game = (function() {
       x: x,
       y: y
     };
+  },
+
+  removeBall = function(index) {
+    var ballCoordinates = MIGACE.transIndexToBoardCoord(index, {rows: conf.rows, columns: conf.columns}),
+        ballPosition = MIGACE.transCoordToBoardPos(ballCoordinates, board),
+        ball = new MIGACE.ball(),
+        radius = board.getFieldWidth() / 2 - conf.ballMargin;
+
+    ball.draw(ballPosition.x, ballPosition.y, radius, {color: '#FFFFFF', index: 0});
+    boardArray[index] = null;
+    ball = null;
   },
 
   drawRandomBall = function(fillColor) {
