@@ -33,11 +33,11 @@ MIGACE.board = (function() {
   draw = function (colorLine, lineWidth) {
     var i, x, y;
 
-    if (typeof colorLine == 'undefined') {
+    if (typeof colorLine === 'undefined') {
       colorLine = '#000000';
     }
 
-    if (typeof lineWidth == 'undefined') {
+    if (typeof lineWidth === 'undefined') {
       lineWidth = '2';
     }
 
@@ -79,7 +79,7 @@ MIGACE.board = (function() {
           canvasHeight = conf.getCanvasHeight();
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  }
+  };
 
   // public API
   return {

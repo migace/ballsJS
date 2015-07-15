@@ -23,7 +23,7 @@ MIGACE.clearArray = function(dataArray, size) {
   var i;
 
   for (i = 0; i < size; i += 1) {
-    dataArray[i] = 0;
+    dataArray[i] = undefined;
   }
 
   return dataArray;

@@ -12,22 +12,22 @@ MIGACE.conf = (function() {
 
   getCvs = function() {
     return document.getElementById('gBoard');
-  }
+  },
 
   getCtx = function() {
     var cvs = getCvs();
     ctx = cvs.getContext('2d');
 
     return ctx;
-  }
+  },
 
   getCanvasWidth = function() {
     return getCvs().width;
-  }
+  },
 
   getCanvasHeight = function() {
     return getCvs().height;
-  }
+  };
 
   // public API
   return {

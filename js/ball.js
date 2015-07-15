@@ -18,6 +18,7 @@ MIGACE.ball = (function() {
   };
 
   Constr.prototype = {
+    constructor: Constr,
     draw: function(posX, posY, radius, fillColor) {
       var startAngle = 0,
           endAngle = 2 * Math.PI;
