@@ -90,7 +90,7 @@ MIGACE.game = (function() {
         coordinates = MIGACE.transBoardPosToCoord(balls_in_line[i], board);
         index = MIGACE.transCoordMultiDimToOne(coordinates, arrayLength);
         removeBall(index);
-        boardArray[index] = null;
+        boardArray[index] = undefined;
       }
       return true;
     }

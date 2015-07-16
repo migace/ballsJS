@@ -12,17 +12,25 @@ MIGACE.checker = (function() {
     ball = ballEl;
     balls_in_line = [];
 
-    //add current ball
-    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
-    balls_in_line.push(boardArray[MIGACE.transCoordMultiDimToOne(ballPosition, conf.size)]);
-
-    checkBoardHorizontal();
-    checkBoardVertical();
+    checkDirection(checkBoardHorizontally);
+    checkDirection(checkBoardVertically);
+    checkDirection(checkBoardLeftSkant);
+    checkDirection(checkBoardRightSkant);
 
     return balls_in_line;
   },
 
-  checkBoardHorizontal = function() {
+  checkDirection = function(callback) {
+    //add current ball
+    if (balls_in_line.length < 5) {
+      balls_in_line = [];
+      ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+      balls_in_line.push(boardArray[MIGACE.transCoordMultiDimToOne(ballPosition, conf.size)]);
+    }
+    callback();
+  },
+
+  checkBoardHorizontally = function() {
     if (boardArray === undefined || ball === undefined) {
       return false;
     }
@@ -50,7 +58,7 @@ MIGACE.checker = (function() {
       index = MIGACE.transCoordMultiDimToOne({x: ballPosition.x, y: ballPosition.y}, conf.size);
 
       // i need check if the same color index - the same color
-      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex == ball.colorIndex) {
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
         balls_in_line.push(boardArray[index]);
       } else {
         break;
@@ -58,7 +66,7 @@ MIGACE.checker = (function() {
     }
   },
 
-  checkBoardVertical = function() {
+  checkBoardVertically = function() {
     if (boardArray === undefined || ball === undefined) {
       return false;
     }
@@ -86,7 +94,83 @@ MIGACE.checker = (function() {
       index = MIGACE.transCoordMultiDimToOne({x: ballPosition.x, y: ballPosition.y}, conf.size);
 
       // i need check if the same color index - the same color
-      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex == ball.colorIndex) {
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        break;
+      }
+    }
+  },
+
+  checkBoardLeftSkant = function() {
+    if (boardArray === undefined || ball === undefined) {
+      return false;
+    }
+
+    var ballPosition, index;
+
+    // left up
+    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+    while (ballPosition.x > 0 && ballPosition.y > 0) {
+      ballPosition.x -= 1;
+      ballPosition.y -= 1;
+      index = MIGACE.transCoordMultiDimToOne(ballPosition, conf.size);
+      // i need check if the same color index - the same color
+
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        break;
+      }
+    }
+
+    // right bottom
+    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+    while (ballPosition.x < conf.columns && ballPosition.y < conf.rows) {
+      ballPosition.x += 1;
+      ballPosition.y += 1;
+      index = MIGACE.transCoordMultiDimToOne({x: ballPosition.x, y: ballPosition.y}, conf.size);
+
+      // i need check if the same color index - the same color
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        break;
+      }
+    }
+  },
+
+  checkBoardRightSkant = function() {
+    if (boardArray === undefined || ball === undefined) {
+      return false;
+    }
+
+    var ballPosition, index;
+
+    // right up
+    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+    while (ballPosition.x < conf.columns && ballPosition.y > 0) {
+      ballPosition.x += 1;
+      ballPosition.y -= 1;
+      index = MIGACE.transCoordMultiDimToOne(ballPosition, conf.size);
+      // i need check if the same color index - the same color
+
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
+        balls_in_line.push(boardArray[index]);
+      } else {
+        break;
+      }
+    }
+
+    // left bottom
+    ballPosition = MIGACE.transBoardPosToCoord(ball, board);
+    while (ballPosition.x > 0 && ballPosition.y < conf.rows) {
+      ballPosition.x -= 1;
+      ballPosition.y += 1;
+      index = MIGACE.transCoordMultiDimToOne({x: ballPosition.x, y: ballPosition.y}, conf.size);
+
+      // i need check if the same color index - the same color
+      if (typeof boardArray[index] === 'object' && boardArray[index].colorIndex === ball.colorIndex) {
         balls_in_line.push(boardArray[index]);
       } else {
         break;
