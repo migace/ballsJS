@@ -10,9 +10,24 @@
   margin-top: 25px;
 }
 #new-game {
-  top: 50%;
-  transform: translateY(-50%);
+  margin-top: 50px;
   position: relative;
+}
+#score-board {
+  margin-top: 50px;
+}
+#score-board small {
+  font-size: 18px;
+}
+#score-board strong{
+  font-weight: 700;
+  font-size: 26px;
+}
+.center-block-horizontally {
+  margin: 0 auto;
+}
+.center-text-horizontally {
+  text-align: center;
 }
 /* bootstrap modification */
 .navbar {border-radius: 0;}

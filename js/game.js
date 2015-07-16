@@ -31,7 +31,8 @@ MIGACE.game = (function() {
         boardCoordinates,
         ballPosition,
         fillColor,
-        boardArrayIndex;
+        boardArrayIndex,
+        scores;
 
     mouseCoordinates = MIGACE.getMousePosition(e);
     boardCoordinates = mousePositionBoard(mouseCoordinates);
@@ -62,9 +63,9 @@ MIGACE.game = (function() {
         currentPosition = null;
         previousPosition = null;
 
-        var f = checkBalls(ball);
-        if (f == false) {
-          update();
+        scores = checkBalls(ball);
+        if (typeof scores !== undefined) {
+          update(scores);
         }
 
         return true;
@@ -72,13 +73,15 @@ MIGACE.game = (function() {
     }
   },
 
-  update = function() {
+  update = function(scores) {
     drawBalls();
+    MIGACE.interface.updateScore(scores);
   }
 
   checkBalls = function(ball) {
     var checker = MIGACE.checker,
-        balls_in_line = undefined;
+        balls_in_line = undefined,
+        score = undefined;
 
     balls_in_line = checker.check(boardArray, ball);
 
@@ -92,10 +95,14 @@ MIGACE.game = (function() {
         removeBall(index);
         boardArray[index] = undefined;
       }
-      return true;
+
+      scores = conf.basic_points;
+      scores += balls_in_line.length % conf.basic_points;
+
+      return scores;
     }
 
-    return false;
+    return undefined;
   },
 
   mousePositionBoard = function(mouseCoordinates) {
