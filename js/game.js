@@ -4,8 +4,8 @@ MIGACE.game = (function() {
   var board = MIGACE.board,
       ball = new MIGACE.ball(),
       conf = MIGACE.conf,
-      previousPosition = null,
-      currentPosition = null,
+      previousPosition = undefined,
+      currentPosition = undefined,
       boardArray = new Array(),
       is_ball_click = false,
 
@@ -40,7 +40,13 @@ MIGACE.game = (function() {
 
     if (typeof boardArray[boardArrayIndex] === 'object') {
       is_ball_click = true;
+
+      if (previousPosition !== undefined && typeof boardArray[previousPosition] === 'object') {
+        boardArray[previousPosition].stopBounce();
+      }
+
       previousPosition = boardArrayIndex;
+      boardArray[previousPosition].startBounce();
     }
     else {
       if (is_ball_click === true) {
@@ -51,7 +57,13 @@ MIGACE.game = (function() {
         ball = MIGACE.cloneObject(previousBall, ball);
 
         // delete old ball
-        removeBall(previousPosition);
+        if (previousPosition !== undefined && typeof boardArray[previousPosition] === 'object') {
+          boardArray[previousPosition].stopBounce();
+        }
+
+        previousBall.clear();
+        boardArray[previousPosition] = undefined;
+        //removeBall(previousPosition);
 
         // draw new ball
         ballPosition = MIGACE.transIndexToBoardCoord(boardArrayIndex, {rows: conf.rows, columns: conf.columns});
@@ -64,7 +76,7 @@ MIGACE.game = (function() {
         previousPosition = null;
 
         scores = checkBalls(ball);
-        if (typeof scores !== undefined) {
+        if (typeof scores === 'undefined') {
           update(scores);
         }
 
@@ -92,7 +104,9 @@ MIGACE.game = (function() {
       for (i = 0, max = balls_in_line.length; i < max; i += 1) {
         coordinates = MIGACE.transBoardPosToCoord(balls_in_line[i], board);
         index = MIGACE.transCoordMultiDimToOne(coordinates, arrayLength);
-        removeBall(index);
+
+        //removeBall(index);
+        boardArray[index].clear();
         boardArray[index] = undefined;
       }
 

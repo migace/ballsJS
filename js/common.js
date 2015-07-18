@@ -65,7 +65,7 @@ MIGACE.getOneColor = function() {
 }
 
 MIGACE.transCoordMultiDimToOne = function(coordinates, arrayLength) {
-  return coordinates.y * (arrayLength/10) + coordinates.x;
+  return Math.floor(coordinates.y * (arrayLength/10) + coordinates.x);
 }
 
 MIGACE.transIndexToBoardCoord = function(index, board) {

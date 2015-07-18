@@ -1,9 +1,9 @@
 MIGACE.namespace('board');
 
 MIGACE.board = (function() {
-  var rows = 10,
-      columns = 10,
-      conf = MIGACE.conf,
+  var conf = MIGACE.conf,
+      rows = conf.rows,
+      columns = conf.columns,
       ctx = conf.getCtx(),
 
   getRows = function() {
