@@ -15,6 +15,15 @@ MIGACE.conf = (function() {
     return document.getElementById('gBoard');
   },
 
+  canvasDeviceSize = function() {
+    var cvs = getCvs();
+
+    if (window.innerWidth === 360) {
+      cvs.width = 300;
+      cvs.height = 300;
+    }
+  },
+
   getCtx = function() {
     var cvs = getCvs();
     ctx = cvs.getContext('2d');
@@ -42,6 +51,7 @@ MIGACE.conf = (function() {
     ballsNumber: ballsNumber,
     ballsInLine: ballsInLine,
     size: size,
-    basic_points: basic_points
+    basic_points: basic_points,
+    canvasDeviceSize: canvasDeviceSize
   };
 })();

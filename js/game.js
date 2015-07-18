@@ -10,6 +10,7 @@ MIGACE.game = (function() {
       is_ball_click = false,
 
   init = function() {
+    conf.canvasDeviceSize();
     boardArray = new Array(conf.rows * conf.columns);
     boardArray = MIGACE.clearArray(boardArray, boardArray.length);
 
@@ -31,8 +32,7 @@ MIGACE.game = (function() {
         boardCoordinates,
         ballPosition,
         fillColor,
-        boardArrayIndex,
-        scores;
+        boardArrayIndex;
 
     mouseCoordinates = MIGACE.getMousePosition(e);
     boardCoordinates = mousePositionBoard(mouseCoordinates);
@@ -75,19 +75,21 @@ MIGACE.game = (function() {
         currentPosition = null;
         previousPosition = null;
 
-        scores = checkBalls(ball);
-        if (typeof scores === 'undefined') {
-          update(scores);
-        }
+        update();
 
         return true;
       }
     }
   },
 
-  update = function(scores) {
-    drawBalls();
-    MIGACE.interface.updateScore(scores);
+  update = function() {
+    scores = checkBalls(ball);
+
+    if (typeof scores !== 'undefined') {
+        MIGACE.interface.updateScore(scores);
+    } else {
+      drawBalls();
+    }  
   }
 
   checkBalls = function(ball) {
