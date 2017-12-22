@@ -1,0 +1,28 @@
+{
+  "name": "ballsJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start:dev": "webpack-dev-server"
+  },
+  "repository": "https://github.com/migace/ballsJS.git",
+  "author": "Michał Gacek <gacek.michael@outlook.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jslint": "^0.11.0",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "image-webpack-loader": "^3.4.2",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "webpack-dev-server": "^2.9.7"
+  }
+}
