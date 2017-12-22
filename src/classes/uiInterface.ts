@@ -9,7 +9,6 @@ class UiInterface {
   private constructor() {
     this.newGameBtn = document.getElementById('new-game');
     this.scores = 0;    
-    console.log(this.newGameBtn);
 
     this.newGameBtn.addEventListener('click', () => {      
       this.game = Game.getInstance();
