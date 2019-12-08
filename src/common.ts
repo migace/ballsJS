@@ -28,15 +28,12 @@ export function getMousePosition(e: MouseEvent): IMousePosition {
   x -= rect.left;
   y -= rect.top;
 
-  return {
-    x,
-    y
-  };
+  return { x, y };
 }
 
 export function getOneColor() {
   const color = ['#F7B800', '#FA3400', '#69F500', '#00F7CE', '#000BBD'],
-        randomNumber = Math.floor(Math.random()*color.length);
+        randomNumber = Math.floor(Math.random() * color.length);
 
   return {
     color: color[randomNumber],
@@ -52,30 +49,21 @@ export function transIndexToBoardCoord(index: number, board: IBoard) {
   const x = Math.floor(index % board.columns),
         y = Math.floor(index / board.rows);
 
-  return {
-    x,
-    y
-  };
+  return { x, y };
 }
 
 export function transCoordToBoardPos(coordinates: any, board: IBoard) {
   const x = coordinates.x * board.getFieldWidth() + board.getFieldWidth() / 2,
         y = coordinates.y * board.getFieldHeight() + board.getFieldHeight() / 2;
 
-  return {
-    x,
-    y
-  };
+  return { x, y };
 }
 
 export function transBoardPosToCoord(boardPosition: any, board: IBoard) {
   const x = Math.floor((boardPosition.x  - board.getFieldWidth() / 2) / board.getFieldWidth()),
         y = Math.floor((boardPosition.y  - board.getFieldHeight() / 2) / board.getFieldHeight());
 
-  return {
-    x,
-    y
-  };
+  return { x, y };
 }
 
 export function cloneObject(from: any, to: any) {

@@ -5,34 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">
-            BallsJS
-          </a>
-        </div>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">BallJS</a>
       </div>
     </nav>
-    <section id="main-content" class="page">
+    <section id="main-content" class="section">
       <div class="container">
-        <div class="col-sm-8 col-md-8">
-          <canvas id="gBoard" width="400" height="400">
-            <p>
-              Twoja przeglądarka internetowa nie obsługuje elementu canvas!<br />
-              Zaaktualizuj ją do najnowszej wersji. Wspracie dla poszczególnych wersji<br />
-              możesz sprawdzić <a href="http://caniuse.com/#search=canvas">tutaj</a>
-            </p>
-          </canvas>
-        </div>
-        <div id="control-panel" class="col-sm-4 col-md-2 center-text-horizontally">
-          <p id="score-board">
-            <small>Score</small><br />
-            <strong id="score">0</strong>
-          </p>
-          <button id="new-game" class="btn btn-success">New game</button>
-        </div>
+        <div class="columns">
+          <div class="column is-three-fifths is-offset-one-fifth">
+            <div class="columns">
+              <div class="column">
+                <canvas id="gBoard" width="400" height="400">
+                  <p>
+                    Twoja przeglądarka internetowa nie obsługuje elementu canvas!<br />
+                    Zaaktualizuj ją do najnowszej wersji. Wspracie dla poszczególnych wersji<br />
+                    możesz sprawdzić <a href="http://caniuse.com/#search=canvas">tutaj</a>
+                  </p>
+                </canvas>
+              </div>
+              <div id="control-panel" class="column has-text-centered">
+                <p id="score-board" class="is-size-3" style="margin-bottom: 70px">
+                  <small>Score</small><br />
+                  <strong id="score">0</strong>
+                </p>
+                <button id="new-game" class="button is-primary">New game</button>
+              </div>
+            </div>
+          </div>
+        </div>        
       </div>
     </section>
+
+    <script src="./app.ts"></script>
   </body>
 </html>

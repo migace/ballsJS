@@ -21,8 +21,6 @@ class Checker {
   }
 
   check(ball: IBall): Array<IBall> {
-    let ballPosition;
-
     this.ball = ball;
     this.ballsInLine = [];
 

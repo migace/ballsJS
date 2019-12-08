@@ -2,9 +2,7 @@ import IBoard from '../interfaces/board.interface';
 import IBall from '../interfaces/ball.interface';
 import Checker from './checker';
 import UiInterface from './uiInterface';
-import {
-  IMousePosition
-} from '../interfaces/common.interface';
+import { IMousePosition } from '../interfaces/common.interface';
 import Board from './board';
 import Ball from './ball';
 import Config from '../classes/config';
@@ -21,6 +19,7 @@ import {
 
 class Game {
   private static instance: Game;
+
   board: IBoard;
   ball: IBall;
   config: Config;
@@ -40,7 +39,7 @@ class Game {
     this.board = new Board();
     this.board.draw("#000", 2);
     this.drawBalls();
-    this.config.getCvs().addEventListener('mousedown', this.mousedownHandler.bind(this), false);
+    this.config.getCvs().addEventListener('mousedown', this.mousedownHandler, false);
     this.scores = 0;
     this.ui = UiInterface.getInstance();
     this.checker = new Checker(this.board, this.boardArray);
@@ -96,7 +95,7 @@ class Game {
     };
   }
 
-  mousedownHandler(e: MouseEvent) {
+  mousedownHandler = (e: MouseEvent) => {
     let mouseCoordinates: IMousePosition,
         boardCoordinates,
         ballPosition,
